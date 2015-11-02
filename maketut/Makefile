@@ -1,19 +1,21 @@
+# Makefile
+CC=g++
+CFLAGS=-c -Wall
+OBJECTS=main.o factorial.o hello.o
+
 all: hello
 
 hello: main.o factorial.o hello.o
-	g++ main.o factorial.o hello.o -o hello
+	$(CC) $(OBJECTS) -o hello
 
 main.o: main.cpp
-	g++ -c main.cpp
+	$(CC) $(CFLAGS) main.cpp
 
 factorial.o: factorial.cpp
-	g++ -c factorial.cpp
+	$(CC) $(CFLAGS) factorial.cpp
 
 hello.o: hello.cpp
-	g++ -c hello.cpp
+	$(CC) $(CFLAGS) hello.cpp
 
 clean:
 	rm *.o hello
-
-test:
-	g++ hello
