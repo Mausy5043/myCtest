@@ -14,3 +14,6 @@ hello.o: hello.cpp
 
 clean:
 	rm *.o hello
+
+test:
+	g++ hello
