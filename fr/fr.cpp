@@ -25,9 +25,11 @@ int write2file() {
 int invoer(){
   int sum = 0, value = 0;
   // read until end-of-file, calculating a running total of all values read
+  cout << "Enter numbers to add. (^D to end input)" << endl;
   while (cin >> value)
+  {
     sum += value; // equivalent to sum = sum + value
-
+  }
   cout << "Sum is: " << sum << endl;
   return 0;
 }
