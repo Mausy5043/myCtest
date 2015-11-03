@@ -1,21 +1,33 @@
 # Makefile
 CC=g++
-CFLAGS=-c -Wall
-OBJECTS=main.o factorial.o hello.o
+CCFLAGS=-c -std=c++11 -stdlib=libc++
+LDFLAGS=
+SOURCES=main.cpp factorial.cpp hello.cpp
+OBJECTS=$(SOURCES:.cpp=.o)
+EXECUTABLE=hello
 
-all: hello
+ifeq ($(OS),Windows_NT)
+	CC=g++
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		CC=g++
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		CC=clang++
+	endif
+endif
 
-hello: main.o factorial.o hello.o
-	$(CC) $(OBJECTS) -o hello
+all: $(SOURCES) $(EXECUTABLE)
 
-main.o: main.cpp
-	$(CC) $(CFLAGS) main.cpp
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
-factorial.o: factorial.cpp
-	$(CC) $(CFLAGS) factorial.cpp
-
-hello.o: hello.cpp
-	$(CC) $(CFLAGS) hello.cpp
+.cpp.o:
+	$(CC) $(CCFLAGS) $< -o $@
 
 clean:
-	rm *.o hello
+	rm *.o
+
+allclean:
+	rm *.o $(EXECUTABLE)
