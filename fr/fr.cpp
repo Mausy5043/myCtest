@@ -22,13 +22,22 @@ int write2file() {
   return 0;
 }
 
+int invoer(){
+  int sum = 0, value = 0;
+  // read until end-of-file, calculating a running total of all values read
+  while (cin >> value)
+    sum += value; // equivalent to sum = sum + value
 
+  cout << "Sum is: " << sum << endl;
+  return 0;
+}
 
 int main(){
-  int r;
+  int r = 0;
   cout << "This text is sent to `cout`." << endl;
   clog << "This text is sent to `clog`." << endl;
   cerr << "This text is sent to `cerr`." << endl;
   r = write2file();
+  r = invoer();
   return r;
 }
