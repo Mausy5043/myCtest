@@ -1,4 +1,4 @@
-# Functions used
+// Functions used
 
 void print_hello();
 

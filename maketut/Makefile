@@ -12,16 +12,16 @@ LDFLAGS=
 # Platform specific
 ifeq ($(OS),Windows_NT)
 	CC=g++
-	CCFLAGS=-c -Wall
+	# Use default CCFLAGS: CCFLAGS=-c -Wall
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
 		CC=g++
-		CCFLAGS=-c -Wall -std=c++11
+		CCFLAGS+=-std=c++11
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		CC=clang++
-		CCFLAGS=-c -std=c++11 -stdlib=libc++
+		CCFLAGS+=-std=c++11 -stdlib=libc++
 	endif
 endif
 

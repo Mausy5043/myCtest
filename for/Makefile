@@ -1,34 +1,35 @@
 # Makefile
 
-# Project-specific
+# Project-specific definitions
 SOURCES=for.cpp
-EXECUTABLE=for
+EXECUTABLE=main
 
-# Default fixed values
+# Default definitions
 CC=g++
 CCFLAGS=-c -Wall
 LDFLAGS=
 
-# Platform specific
+# Platform specific definitions
 ifeq ($(OS),Windows_NT)
 	CC=g++
-	CCFLAGS=-c -Wall
+	## Use default CCFLAGS=-c -Wall
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
 		CC=g++
-		CCFLAGS=-c -Wall -std=c++11
+		CCFLAGS+=-std=c++11
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		CC=clang++
-		CCFLAGS=-c -std=c++11 -stdlib=libc++
+		CCFLAGS+=-std=c++11 -stdlib=libc++
 	endif
 endif
 
-# Built macros
+# Macro definitions
 OBJECTS=$(SOURCES:.cpp=.o)
 
 
+# `make` options
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
