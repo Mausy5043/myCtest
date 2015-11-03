@@ -1,7 +1,7 @@
 #! /bin/bash
 
  git fetch origin
- git diff --name-only
+ #git diff --name-only
  git log --graph --oneline --date-order --decorate --color --all |head -n 5
 
  git pull
