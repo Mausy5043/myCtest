@@ -3,8 +3,6 @@
 //#include <syslog>
 using namespace std;
 
-
-
 int write2file() {
   // declarations
   streambuf *psbuf, *backup;
