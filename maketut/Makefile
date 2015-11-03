@@ -1,11 +1,15 @@
 # Makefile
+
+# Project-specific
+SOURCES=main.cpp factorial.cpp hello.cpp
+EXECUTABLE=hello
+
+# Default fixed values
 CC=g++
 CCFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=main.cpp factorial.cpp hello.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=hello
 
+# Platform specific
 ifeq ($(OS),Windows_NT)
 	CC=g++
 	CCFLAGS=-c -Wall
@@ -20,6 +24,10 @@ else
 		CCFLAGS=-c -std=c++11 -stdlib=libc++
 	endif
 endif
+
+# Built macros
+OBJECTS=$(SOURCES:.cpp=.o)
+
 
 all: $(SOURCES) $(EXECUTABLE)
 

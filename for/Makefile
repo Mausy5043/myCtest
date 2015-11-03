@@ -1,17 +1,44 @@
 # Makefile
-CC=clang++
-CFLAGS=-c -std=c++11 -stdlib=libc++
+
+# Project-specific
 SOURCES=for.cpp
-OBJECTS=for.o
-EXEC=for
+EXECUTABLE=for
 
-all: for
+# Default fixed values
+CC=g++
+CCFLAGS=-c -Wall
+LDFLAGS=
 
-for: for.o
-	$(CC) $(OBJECTS) -o $(EXEC)
+# Platform specific
+ifeq ($(OS),Windows_NT)
+	CC=g++
+	CCFLAGS=-c -Wall
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		CC=g++
+		CCFLAGS=-c -Wall
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		CC=clang++
+		CCFLAGS=-c -std=c++11 -stdlib=libc++
+	endif
+endif
 
-for.o: for.cpp
-	$(CC) $(CFLAGS) for.cpp
+# Built macros
+OBJECTS=$(SOURCES:.cpp=.o)
+
+
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+
+.cpp.o:
+	$(CC) $(CCFLAGS) $< -o $@
 
 clean:
-	rm *.o *.out $(EXEC)
+	rm *.o
+
+allclean:
+	rm *.o $(EXECUTABLE)
