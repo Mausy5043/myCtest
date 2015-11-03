@@ -1,18 +1,18 @@
 # Makefile
 
-# Project-specific
-SOURCES=print.cpp factorial.cpp hello.cpp
+# Project-specific definitions
+SOURCES=fr.cpp
 EXECUTABLE=main
 
-# Default fixed values
+# Default definitions
 CC=g++
 CCFLAGS=-c -Wall
 LDFLAGS=
 
-# Platform specific
+# Platform specific definitions
 ifeq ($(OS),Windows_NT)
 	CC=g++
-	# Use default CCFLAGS: CCFLAGS=-c -Wall
+	## Use default CCFLAGS=-c -Wall
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
@@ -25,10 +25,11 @@ else
 	endif
 endif
 
-# Built macros
+# Macro definitions
 OBJECTS=$(SOURCES:.cpp=.o)
 
 
+# `make` options
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
