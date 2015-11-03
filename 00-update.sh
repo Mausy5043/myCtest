@@ -2,6 +2,8 @@
 
  git pull
  git fetch origin
- git checkout $branch
- git reset --hard origin/$branch && \
+ git checkout master
+ git reset --hard origin/master && \
  git clean -f -d
+
+chmod -R 744 *
