@@ -17,7 +17,7 @@ else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
 		CC=g++
-		CCFLAGS=-c -Wall
+		CCFLAGS=-c -Wall -std=c++11
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		CC=clang++
