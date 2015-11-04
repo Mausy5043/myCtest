@@ -7,6 +7,7 @@ EXECUTABLE=main
 # Default definitions
 CC=gcc
 CFLAGS=-c -Wall
+LFLAGS=-Wall
 
 # Platform specific definitions
 ifeq ($(OS),Windows_NT)
@@ -32,7 +33,7 @@ OBJECTS=$(SOURCES:.c=.o)
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CC) $(LFLAGS) $(OBJECTS) -o $@
 
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@
