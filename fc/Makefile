@@ -6,7 +6,7 @@ EXECUTABLE=main
 
 # Default definitions
 CC=gcc
-CCFLAGS=-c -Wall
+CFLAGS=-c -Wall
 LDFLAGS=
 
 # Platform specific definitions
@@ -17,11 +17,11 @@ else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
 		CC=gcc
-		CCFLAGS+=-Oz
+		CFLAGS+=-O2
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		CC=clang
-		CCFLAGS+=-Oz
+		CFLAGS+=-Oz
 	endif
 endif
 
@@ -36,7 +36,7 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
 .cpp.o:
-	$(CC) $(CCFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
 	rm *.o
