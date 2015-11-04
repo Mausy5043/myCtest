@@ -7,21 +7,20 @@ EXECUTABLE=main
 # Default definitions
 CC=gcc
 CFLAGS=-c -Wall
-LDFLAGS=
 
 # Platform specific definitions
 ifeq ($(OS),Windows_NT)
 	CC=gcc
-	## Use default CCFLAGS=-c -Wall
+	## Use default CFLAGS=-c -Wall
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
 		CC=gcc
-		CFLAGS+=-O2
+		CFLAGS+=-Os
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		CC=clang
-		CFLAGS+=-Oz
+		CFLAGS+=-Os
 	endif
 endif
 
@@ -39,7 +38,7 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm *.o
+	-$(RM) *.o *.out
 
 allclean:
-	rm *.o $(EXECUTABLE)
+	-$(RM) *.o *.out $(EXECUTABLE)
