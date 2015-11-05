@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
   char buffer[SIZE];
   struct tm *glbtime;
   struct tm *loctime;
-  char fmttime;
+  char fmttime[16];
 
   // 1. determine date and time
   systime = time(NULL);
@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
   strftime (buffer, SIZE, "Today is %Y-%m-%dT%H:%M.\n", loctime);
   fmttime = buffer;
 
-  if(starttime != -1)
+  if(systime != -1)
   {
     printf("The current GMT time is %s (%ju seconds since the Epoch)\n",
             asctime(glbtime), (uintmax_t)systime);
