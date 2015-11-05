@@ -2,18 +2,33 @@
 #include <stdint.h>
 #include <time.h>
 
+#define SIZE 256
 //#include "functions.h"
 
 int main(int argc, char* argv[])
 {
-  time_t starttime;
+  time_t systime;
+  char buffer[SIZE];
+  struct tm *glbtime;
+  struct tm *loctime;
+
   // 1. determine date and time
-  starttime = time(NULL);
+  systime = time(NULL);
+  // convert to GMT representation
+  glbtime = gmtime(&systime);
+  // convert to localtime representation
+  loctime = localtime(&systime);
+  // convert to formatted representation
+  fmttime =  strftime (buffer, SIZE, "Today is %Y-%m-%dT%H:%M.\n", loctime);
 
   if(starttime != -1)
   {
-    printf("The current time is %s (%ju seconds since the Epoch)\n",
-            asctime(gmtime(&starttime)), (uintmax_t)starttime);
+    printf("The current GMT time is %s (%ju seconds since the Epoch)\n",
+            asctime(glbtime), (uintmax_t)systime);
+
+    printf("The local time is %s \n", asctime(loctime));
+
+    printf("The useful time is %s \n", fmttime)
   }
   // 2. read a line of data from a file
   // 3. write formatted data to a file
