@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <math.h>
+
 #include "functions.h"
 
 int main(int argc, char* argv[])
@@ -18,6 +20,7 @@ int main(int argc, char* argv[])
   {
     printf ("%s\n", argv[counter]);
   }
+  printf("%d squared is %.3f --- %s\n", ps, pow(ps,2),"fin" ); // forgot 2 arguments
 
   return 0;
 }
