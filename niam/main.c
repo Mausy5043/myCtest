@@ -8,10 +8,10 @@
 int main(int argc, char* argv[])
 {
   time_t systime;
-  char buffer[SIZE];
+  char timebuffer[SIZE];
   struct tm *glbtime;
   struct tm *loctime;
-  char fmttime[16];
+  //char fmttime[16];
 
   // 1. determine date and time
   systime = time(NULL);
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
   // convert to localtime representation
   loctime = localtime(&systime);
   // convert to formatted representation
-  strftime (buffer, SIZE, "Today is %Y-%m-%dT%H:%M.\n", loctime);
+  strftime(timebuffer, SIZE, "%Y-%m-%dT%H:%M", loctime);
   //fmttime = buffer;
 
   if(systime != -1)
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 
     printf("The local time is %s \n", asctime(loctime));
 
-    printf("The useful time is %s \n", buffer);
+    printf("The useful time is %s \n", timebuffer);
   }
   // 2. read a line of data from a file
   // 3. write formatted data to a file
