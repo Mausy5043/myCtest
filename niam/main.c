@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <time.h>
 
 #define SIZE 256
@@ -32,9 +33,33 @@ int main(int argc, char *argv[])
   pi++;
   printf(" pi++ %p\n", pi);
 
+  int i;
+  int nelem = 10;
+  int *arr = malloc(nelem * sizeof(int));
+  int *pa;
+  pa = arr;
 
+  printf(" arr  %p\n", arr);
+  printf(" pa   %p\n\n", pa);
+  for (i = 0; i != (nelem); i++)
+  {
+    *pa = i;
+    pa++;
+  }
+
+  printf(" arr  %p\n", arr);
+  printf("&arr  %p\n",&arr);
+  printf("*arr  %i\n\n",*arr);
+  pa = arr;
+  for (i = 0; i != (nelem); i++)
+  {
+    printf(" pa   %p\n", pa);
+    printf("*pa   %i\n",*pa);
+    pa++;
+  }
+
+  free(arr);
 /*
-
 
 
 
