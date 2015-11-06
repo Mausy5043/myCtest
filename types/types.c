@@ -21,4 +21,6 @@ int main()
   printf("sizeof(float)       == %i\n", (int)sizeof(float));
   //printf("float maximum       == %f\n", FLT_MAX);
   //printf("sizeof(long float)  == %lu\n", sizeof(long float));
+
+  return 0;
 }
