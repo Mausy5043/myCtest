@@ -15,11 +15,11 @@ int main(int argc, char *argv[])
   a = 1234; // a contains the value 1234
   p = &a;   // p contains the address of integer a.
 
-  printf(" a   %lu\n", a);
+  printf(" a   %i\n", a);
   printf("&a   %p\n",&a);
   printf(" p   %p\n", p);
   printf("&p   %p\n",&p);
-  printf("*p   %lu\n",*p);
+  printf("*p   %i\n",*p);
 
   char *pc = (char*)2;
   printf(" pc  %p\n", pc);
