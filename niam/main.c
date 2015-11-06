@@ -3,37 +3,71 @@
 #include <time.h>
 
 #define SIZE 256
-//#include "functions.h"
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-  time_t systime;
-  char timebuffer[SIZE];
-  struct tm *glbtime;
-  struct tm *loctime;
-  //char fmttime[16];
+  //time_t systime;
+  //char timebuffer[SIZE];
+  //struct tm *loctime;
+
+  int a;    // a is an integer
+  int *p;   // p is a pointer to an integer object
+  a = 1234; // a contains the value 1234
+  p = &a;   // p contains the address of integer a.
+
+  printf(" a   %lu\n", a);
+  printf("&a   %p\n",&a);
+  printf(" p   %p\n", p);
+  printf("&p   %p\n",&p);
+  printf("*p   %lu\n",*p);
+
+  char *pc = (char*)2;
+  printf(" pc  %p\n", pc);
+  pc++;
+  printf(" pc++ %p\n", pc);
+
+
+  int *pi = (int*)2;
+  printf(" pi  %p\n", pi);
+  pi++;
+  printf(" pi++ %p\n", pi);
+
+
+/*
+
+
+
+
+  char  name[] = "Bill";
+  char  *p;
+
+  printf(" name %s\n", name);
+  printf("&name %p\n",&name);
+
+  p=name;
+  printf(" p    %s\n", p);
+  printf("*p    %c\n",*p);
+  printf("&p    %p\n",&p);
+  ++p;
+  printf(" p    %s\n", p);
+  printf("*p    %c\n",*p);
+  printf("&p    %p\n",&p);
+
 
   // 1. determine date and time
   systime = time(NULL);
-  // convert to GMT representation
-  glbtime = gmtime(&systime);
   // convert to localtime representation
   loctime = localtime(&systime);
   // convert to formatted representation
   strftime(timebuffer, SIZE, "%Y-%m-%dT%H:%M", loctime);
-  //fmttime = buffer;
 
   if(systime != -1)
   {
-    printf("The current GMT time is %s (%ju seconds since the Epoch)\n",
-            asctime(glbtime), (uintmax_t)systime);
-
     printf("The local time is %s \n", asctime(loctime));
-
     printf("The useful time is %s \n", timebuffer);
   }
   // 2. read a line of data from a file
   // 3. write formatted data to a file
-
+*/
   return 0;
 }
