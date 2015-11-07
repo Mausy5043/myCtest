@@ -1,6 +1,6 @@
-# include "daemonize.h"
+#include "daemonize.h"
 
-int main()
+int main(void)
 {
     skeleton_daemon();
 
