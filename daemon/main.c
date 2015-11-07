@@ -1,17 +1,23 @@
- #include <unistd.h>
- #include <stdlib.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <syslog.h>
 
 #include "daemonize.h"
 
 int main()
 {
   daemonize();
-  while(1)                                        // main loop of daemon
+  syslog (LOG_NOTICE, "Daemon started.");
+  while(1)                                                                      // main loop of daemon
   {
-    sleep(1);
+    sleep(10);
+    break;
   }
 
-  return 0;
+  syslog (LOG_NOTICE, "Daemon terminated.");
+  closelog();
+
+  return EXIT_SUCCESS;
 }
 
 /* EOF */
