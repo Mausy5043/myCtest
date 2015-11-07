@@ -12,7 +12,7 @@
 *   To terminate:   kill `cat /tmp/exampled.lock`
 */
 
-#include <fcntl.h>
+#include <fcntl.h>                                                              //file descriptors
 #include <signal.h>                                                             //signal(3)
 #include <stdio.h>
 #include <stdlib.h>                                                             //exit(3)
@@ -29,20 +29,24 @@
 void log_message(char *filename,char *message){
   FILE *logfile;
   logfile=fopen(filename,"a");
-  if(!logfile) return;
+  if(!logfile)
+  {
+    syslog(LOG_NOTICE, "Can't open file %s",filename);
+    return;
+  }
   fprintf(logfile,"%s\n",message);
   fclose(logfile);
 }
 
 void signal_handler(int sig){
   switch(sig)
-    {
+  {
     case SIGHUP:
-      log_message(LOG_FILE,"hangup signal catched");
+      //log_message(LOG_FILE,"hangup signal catched");
       syslog(LOG_NOTICE, "Daemon received SIGHUP.");
       break;
     case SIGTERM:
-      log_message(LOG_FILE,"terminate signal catched");
+      //log_message(LOG_FILE,"terminate signal catched");
       syslog(LOG_NOTICE, "Daemon received SIGTERM.");
       closelog();
       exit(EXIT_SUCCESS);
@@ -60,18 +64,18 @@ void daemonize(){
 
   /* first fork() */
   pid=fork();
-  if (pid < 0){                                                                   // fork error
+  if (pid < 0){                                                                 // fork error
     fprintf(stderr,"error: failed first fork\n");
     exit(EXIT_FAILURE);
   }
-  if (pid > 0) exit(EXIT_SUCCESS);                                                // parent exits
+  if (pid > 0) exit(EXIT_SUCCESS);                                              // parent exits
 
   /* decouple from parent environment */
   if (setsid() < 0){                                                            // obtain a new process group
     fprintf(stderr,"error: failed setsid\n");
     exit(EXIT_FAILURE);
   }
-  umask(0);                                                                     // set newly created file permissions
+  umask(027);                                                                   // set newly created file permissions
   chdir(RUNNING_DIR);                                                           // change running directory
 
   /* second fork() */
@@ -84,9 +88,15 @@ void daemonize(){
 
   for (i=getdtablesize();i>=0;--i) close(i);                                    // close all descriptors
   i=open("/dev/null",O_RDWR); dup(i); dup(i);                                   // handle standard I/O
+  /* reopen stdin, stdout, stderr
+  stdin =fopen(infile, "r");    //fd=0 *
+  stdout=fopen(outfile,"w+");   //fd=1 *
+  stderr=fopen(errfile,"w+");   //fd=2 *
+                                       */
+
   lfp=open(LOCK_FILE,O_RDWR|O_CREAT,0640);
-  if (lfp<0) exit(1);                                                           // can not open
-  if (lockf(lfp,F_TLOCK,0)<0) exit(0);                                          // can not lock
+  if (lfp<0) exit(EXIT_FAILURE);                                                // can not open
+  if (lockf(lfp,F_TLOCK,0)<0) exit(EXIT_FAILURE);                               // can not lock
 
   /* second fork continues */
   sprintf(str,"%d\n",getpid());
