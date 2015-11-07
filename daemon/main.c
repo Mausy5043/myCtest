@@ -7,17 +7,15 @@
 int main()
 {
   daemonize();
-  syslog (LOG_NOTICE, "Daemon started.");
+  syslog(LOG_NOTICE, "Daemon started.");
   while(1)                                                                      // main loop of daemon
   {
     sleep(10);
     break;
   }
 
-  syslog (LOG_NOTICE, "Daemon terminated.");
+  syslog(LOG_NOTICE, "Daemon terminated.");
   closelog();
 
   return EXIT_SUCCESS;
 }
-
-/* EOF */

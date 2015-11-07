@@ -58,6 +58,7 @@ void daemonize(){
 
   if(getppid()==1) return;                                                      // already a daemon
 
+  /* first fork() */
   pid=fork();
   if (pid < 0){                                                                   // fork error
     fprintf(stderr,"error: failed first fork\n");
@@ -73,12 +74,13 @@ void daemonize(){
   umask(0);                                                                     // set newly created file permissions
   chdir(RUNNING_DIR);                                                           // change running directory
 
+  /* second fork() */
   pid=fork();
-  if (pid < 0){                                                                   // fork error
+  if (pid < 0){                                                                 // fork error
     fprintf(stderr,"error: failed second fork\n");
     exit(EXIT_FAILURE);
   }
-  if (pid > 0) exit(EXIT_SUCCESS);                                                // parent exits
+  if (pid > 0) exit(EXIT_SUCCESS);                                              // parent exits
 
   for (i=getdtablesize();i>=0;--i) close(i);                                    // close all descriptors
   i=open("/dev/null",O_RDWR); dup(i); dup(i);                                   // handle standard I/O
@@ -86,7 +88,7 @@ void daemonize(){
   if (lfp<0) exit(1);                                                           // can not open
   if (lockf(lfp,F_TLOCK,0)<0) exit(0);                                          // can not lock
 
-  /* first instance continues */
+  /* second fork continues */
   sprintf(str,"%d\n",getpid());
   write(lfp,str,strlen(str));                                                   // record pid to lockfile
   signal(SIGCHLD,SIG_IGN);                                                      // ignore child
@@ -97,5 +99,5 @@ void daemonize(){
   signal(SIGTERM,signal_handler);                                               // catch kill signal
 
   /* Open the log file */
-  openlog ("TestDaemon", LOG_PID, LOG_DAEMON);
+  openlog("TestDaemon", LOG_PID, LOG_DAEMON);
 }
