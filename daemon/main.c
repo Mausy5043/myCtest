@@ -23,9 +23,7 @@ To terminate:	kill `cat /tmp/exampled.lock`
 #define LOCK_FILE	"exampled.lock"
 #define LOG_FILE	"exampled.log"
 
-void log_message(filename,message)
-char *filename;
-char *message;
+void log_message(char *filename,char *message)
 {
 FILE *logfile;
   logfile=fopen(filename,"a");
@@ -34,8 +32,7 @@ FILE *logfile;
   fclose(logfile);
 }
 
-void signal_handler(sig)
-int sig;
+void signal_handler(int sig)
 {
   switch(sig) {
   case SIGHUP:
