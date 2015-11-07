@@ -1,6 +1,7 @@
-#include <stdlib.h>
+ #include <unistd.h>
+ #include <stdlib.h>
 
-#include "daemonize.h"
+#include "daemonize.h";
 
 int main()
 {
