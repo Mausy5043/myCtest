@@ -12,7 +12,7 @@
 #include <sys/stat.h>
 #include <syslog.h>
 
-static void skeleton_daemon()
+static void skeleton(void)
 {
     pid_t pid;
 

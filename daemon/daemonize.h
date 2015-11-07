@@ -2,6 +2,6 @@
 #define DAEMONIZE_H
 
 // function declarations
-static void skeleton_daemon(void)
+static void skeleton(void)
 
 #endif  /* DAEMONIZE_H */
