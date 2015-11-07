@@ -58,7 +58,7 @@ void daemonize()
   /* child (daemon) continues */
   setsid();                                       // obtain a new process group
   for (i=getdtablesize();i>=0;--i) close(i);      // close all descriptors
-  i=open("/dev/null",O_RDWR); dup(i); dup(i);     // handle standart I/O
+  i=open("/dev/null",O_RDWR); dup(i); dup(i);     // handle standard I/O
   umask(027);                                     // set newly created file permissions
   chdir(RUNNING_DIR);                             // change running directory
   lfp=open(LOCK_FILE,O_RDWR|O_CREAT,0640);
