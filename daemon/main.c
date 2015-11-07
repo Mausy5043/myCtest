@@ -6,7 +6,7 @@
 
 int main(void)
 {
-    skeleton();
+    skeleton_daemon();
 
     while (1)
     {
