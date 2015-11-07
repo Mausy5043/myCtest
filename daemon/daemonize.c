@@ -45,7 +45,7 @@ void signal_handler(int sig){
       log_message(LOG_FILE,"terminate signal catched");
       syslog(LOG_NOTICE, "Daemon received SIGTERM.");
       closelog();
-      exit(EXIT_SUCCESSFULL);
+      exit(EXIT_SUCCESS);
       break;
   }
 }
