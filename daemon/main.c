@@ -16,6 +16,8 @@ To terminate:	kill `cat /tmp/exampled.lock`
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #define RUNNING_DIR	"/tmp"
 #define LOCK_FILE	"exampled.lock"
@@ -74,10 +76,15 @@ char str[10];
   signal(SIGTERM,signal_handler);                 /* catch kill signal */
 }
 
-main()
+int main()
 {
   daemonize();
-  while(1) sleep(1);                              /* run */
+  while(1)
+  {
+    sleep(1);
+  }                              /* run */
+
+  return 0;
 }
 
 /* EOF */
