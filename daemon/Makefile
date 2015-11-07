@@ -1,7 +1,7 @@
 # Makefile
 
 # Project-specific definitions
-SOURCES=main.c daemonize.c
+SOURCES=main.c
 EXECUTABLE=main
 
 # Default definitions
