@@ -1,6 +1,7 @@
-#include <unistd.h>                                                             // sleep(3)
+#include <stdio.h>                                                           // sleep(3)
 #include <stdlib.h>
 #include <syslog.h>
+#include <unistd.h>
 
 #include "daemonize.h"
 
