@@ -21,9 +21,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>                                                           //umask(3)
 
-#define RUNNING_DIR	"/"
-#define LOCK_FILE 	"/tmp/exampled.lock"
-#define LOG_FILE	  "/tmp/exampled.log"
+#define RUNNING_DIR "/"
+#define LOCK_FILE   "/tmp/exampled.lock"
+#define LOG_FILE    "/tmp/exampled.log"
 #define APP_NAME    "exampled"
 
 int hLFP;                                                                       // filehandle pidfile

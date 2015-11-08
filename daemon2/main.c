@@ -6,15 +6,16 @@
 
 int main(int argc, char* argv[])
 {
-  if (argc < 1){
-    fprintf(stderr, "ERROR: missing command. One of (start|stop)\n");
+  if (argc < 2){
+    fprintf(stderr, "ERROR: missing command. One of (start|stop) required.\n");
     exit(EXIT_FAILURE);
   }
   if (argc > 2){
-    fprintf(stderr, "ERROR: too many arguments. Only one of (start|stop)\n");
+    fprintf(stderr, "ERROR: too many arguments. Only one of (start|stop) allowed\n");
     exit(EXIT_FAILURE);
   }
-  predaemon(argv[2]);
+  char *cmd = argv[2];
+  predaemon(cmd);
   daemonize();
 
   syslog(LOG_INFO, "started successfully.");
