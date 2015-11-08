@@ -29,6 +29,17 @@
 
 int lfp;
 
+
+void fnsome(){
+  if (lockf(lfp,F_ULOCK,0) > 0){
+    syslog(LOG_NOTICE, "Lockfile could not be released.");
+  }
+  else{
+    syslog(LOG_NOTICE, "Lockfile released.");
+  }
+  unlink(LOCK_FILE);
+}
+
 void log_message(char *filename,char *message){
   FILE *logfile;
   logfile=fopen(filename,"a");
@@ -56,16 +67,6 @@ void signal_handler(int sig){
       exit(EXIT_SUCCESS);
       break;
   }
-}
-
-void fnsome(){
-  if (lockf(lfp,F_ULOCK,0) > 0){
-    syslog(LOG_NOTICE, "Lockfile could not be released.");
-  }
-  else{
-    syslog(LOG_NOTICE, "Lockfile released.");
-  }
-  unlink(LOCK_FILE);
 }
 
 int daemonize(){
