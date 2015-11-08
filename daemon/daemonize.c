@@ -5,12 +5,10 @@
 *
 * Adapted for use by M. Hendrix - 2011NOV
 *
-*   To compile:     cc -o exampled examped.c
-*   To run:         ./exampled
 *   To test daemon: ps -ef|grep exampled (or ps -aux on BSD systems)
 *   To test log:    tail -f /tmp/exampled.log
-*   To test signal: kill -HUP `cat /tmp/exampled.lock`
-*   To terminate:   kill `cat /tmp/exampled.lock`
+*   To test signal: kill -HUP $(cat /tmp/exampled.lock)
+*   To terminate:   kill $(cat /tmp/exampled.lock)
 */
 
 #include <fcntl.h>                                                              //file descriptors
