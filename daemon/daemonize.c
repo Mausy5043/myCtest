@@ -24,13 +24,13 @@
 #include <sys/stat.h>                                                           //umask(3)
 
 #define RUNNING_DIR	"/tmp"
-#define LOCK_FILE	"exampled.lock"
-#define LOG_FILE	"exampled.log"
+#define LOCK_FILE 	"exampled.lock"
+#define LOG_FILE	  "exampled.log"
 
-int lfp;
+int hLFP;
 
 void cleanup(){
-  if (lockf(lfp,F_ULOCK,0) < 0){
+  if (lockf(hLFP,F_ULOCK,0) < 0){
     syslog(LOG_NOTICE, "Lockfile could not be released.");
   }
   else{
@@ -62,13 +62,11 @@ void signal_handler(int sig){
   switch(sig)
   {
     case SIGHUP:
-      //log_message(LOG_FILE,"hangup signal catched");
       syslog(LOG_NOTICE, "Daemon received SIGHUP.");
       break;
     case SIGTERM:
-      //log_message(LOG_FILE,"terminate signal catched");
-      cleanup();
       syslog(LOG_NOTICE, "Daemon received SIGTERM.");
+      cleanup();
       closelog();
       exit(EXIT_SUCCESS);
       break;
@@ -78,7 +76,6 @@ void signal_handler(int sig){
 void daemonize(){
   pid_t pid;
   int i;
-  //int lfp;
   char str[10];
 
   /* first fork() */
@@ -114,9 +111,9 @@ void daemonize(){
   for (i=getdtablesize();i>=0;--i) close(i);                                    // close all descriptors
   i=open("/dev/null",O_RDWR); dup(i); dup(i);                                   // handle stdin/stdout/stderr
 
-  lfp=open(LOCK_FILE,O_RDWR|O_CREAT,0640);                                      // create pidfile
-  if (lfp<0) exit(EXIT_FAILURE);                                                // can not open
-  if (lockf(lfp,F_TLOCK,0)<0) exit(EXIT_FAILURE);                               // can not lock
+  hLFP=open(LOCK_FILE,O_RDWR|O_CREAT,0640);                                      // create pidfile
+  if (hLFP<0) exit(EXIT_FAILURE);                                                // can not open
+  if (lockf(hLFP,F_TLOCK,0)<0) exit(EXIT_FAILURE);                               // can not lock
   sprintf(str,"%d\n",getpid());
   write(lfp,str,strlen(str));                                                   // record pid to lockfile
 
@@ -124,7 +121,7 @@ void daemonize(){
   signal(SIGTSTP,SIG_IGN);                                                      // ignore tty signals
   signal(SIGTTOU,SIG_IGN);
   signal(SIGTTIN,SIG_IGN);
-  signal(SIGHUP,signal_handler);                                                // catch hangup signal
+  signal(SIGHUP, signal_handler);                                               // catch hangup signal
   signal(SIGTERM,signal_handler);                                               // catch kill signal
 
   /* Open the log file */

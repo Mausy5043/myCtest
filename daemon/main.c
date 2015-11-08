@@ -7,6 +7,7 @@
 int main()
 {
   daemonize();
+
   syslog(LOG_NOTICE, "Daemon started.");
   while(1)                                                                      // main loop of daemon
   {
@@ -14,7 +15,6 @@ int main()
     sleep(3600);
     break;
   }
-
 
   cleanup();
 
