@@ -31,18 +31,18 @@ int hLFP;                                                                       
 void predaemon(char *cmd){
   /* switch (cmd)  */
   if (strcmp(cmd, "start") == 0){                                               // case "start":
-    fprintf(stdout, "start requested\n");
-    break;
+    fprintf(stdout, "%s requested\n", cmd);
+    //break;
       /*  Returns to main() and starts daemonize().
           This may still fail if daemon is already running.
       */
   }
   else if (strcmp(cmd, "stop") == 0){                                           // case "stop":
-    fprintf(stdout, "stop requested\n", );
+    fprintf(stdout, "%s requested\n", cmd);
       /*  Stop code to be executed here.
       */
     exit(EXIT_FAILURE);
-    break;
+    //break;
   }
   else{                                                                         // default:
     fprintf(stderr, "ERROR: Invalid command: %s\n", cmd);
