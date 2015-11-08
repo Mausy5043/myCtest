@@ -30,6 +30,8 @@ int hLFP;                                                                       
 
 void predaemon(char *cmd){
   char str[10];
+  int l;
+  pid_t pid;
   // NOTE: can not use syslog here!
   /* switch (cmd)  */
   if (strcmp(cmd, "start") == 0){                                               // case "start":
@@ -41,11 +43,20 @@ void predaemon(char *cmd){
   }
   else if (strcmp(cmd, "stop") == 0){                                           // case "stop":
     fprintf(stdout, "%s requested\n", cmd);
-      /*  Stop code to be executed here.
-      */
     hLFP = open(LOCK_FILE, O_RDONLY);
-    read(hLFP, str, strlen(str));
-    fprintf(stdout, "%s requested\n", str);
+     l = read(hLFP, str, sizeof(str));
+    close(hLFP);
+    str[l-1] = '\0';
+    // fprintf(stdout, "len: %i\n", l);
+    // fprintf(stdout, "str: %s\n", str);
+    sscanf(str, "%d", &pid);
+    if (pid > 10){
+      fprintf(stdout, "killing pid: %i as per your request\n", pid);
+      kill(pid, SIGTERM);
+    }
+      /*  Terminates running incarnation.
+          Then terminates itself
+      */
     exit(EXIT_FAILURE);
     //break;
   }
