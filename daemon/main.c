@@ -17,13 +17,7 @@ int main()
   }
 
 
-
-  //lockf(lfp,F_ULOCK,0);
-  if (lockf(LFP,F_ULOCK,0) > 0)
-    syslog(LOG_NOTICE, "Lockfile could not be released.");
-  else
-    syslog(LOG_NOTICE, "Lockfile released.");
-    unlink(LOCK_FILE);
+  some();
 
   syslog(LOG_NOTICE, "Automatically terminated.");
   closelog();

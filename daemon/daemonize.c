@@ -50,16 +50,20 @@ void signal_handler(int sig){
       break;
     case SIGTERM:
       //log_message(LOG_FILE,"terminate signal catched");
-      if (lockf(lfp,F_ULOCK,0) > 0)
-        syslog(LOG_NOTICE, "Lockfile could not be released.");
-      else
-        syslog(LOG_NOTICE, "Lockfile released.");
-
+      some();
       syslog(LOG_NOTICE, "Daemon received SIGTERM.");
       closelog();
       exit(EXIT_SUCCESS);
       break;
   }
+}
+
+void some(){
+  if (lockf(lfp,F_ULOCK,0) > 0)
+    syslog(LOG_NOTICE, "Lockfile could not be released.");
+  else
+    syslog(LOG_NOTICE, "Lockfile released.");
+  unlink(LOCK_FILE);
 }
 
 int daemonize(){
@@ -89,7 +93,7 @@ int daemonize(){
     exit(EXIT_FAILURE);
   }
 
-/* second fork() not needed ? */
+  /* second fork() not needed ? */
   pid=fork();
   if (pid < 0){                                                                 // fork error
     fprintf(stderr,"error: failed second fork\n");
@@ -97,7 +101,7 @@ int daemonize(){
   }
   if (pid > 0) exit(EXIT_SUCCESS);                                              // parent exits
 
-/* second fork continues */
+  /* second fork continues */
   for (i=getdtablesize();i>=0;--i) close(i);                                    // close all descriptors
   i=open("/dev/null",O_RDWR); dup(i); dup(i);                                   // handle stdin/stdout/stderr
 
