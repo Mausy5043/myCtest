@@ -29,23 +29,25 @@
 int hLFP;                                                                       // filehandle pidfile
 
 void predaemon(char *cmd){
-  switch (cmd){
-    case "start":
-      fprintf(stdout, "start requested\n");
-      break;
-        /*  Returns to main() and starts daemonize().
-            This may still fail if daemon is already running.
-        */
-    case "stop":
-      fprintf(stdout, "stop requested\n", );
-        /*  Stop code to be executed here.
-        */
-      exit(EXIT_FAILURE);
-      break;
-    default:
-      fprintf(stderr, "ERROR: Invalid command: %s\n", cmd);
-      fprintf(stderr, "       Only one of (start | stop) allowed\n");
-      exit(EXIT_FAILURE);
+  /* switch (cmd)  */
+  if (strcmp(cmd, "start") == 0){                                               // case "start":
+    fprintf(stdout, "start requested\n");
+    break;
+      /*  Returns to main() and starts daemonize().
+          This may still fail if daemon is already running.
+      */
+  }
+  else if (strcmp(cmd, "stop") == 0){                                           // case "stop":
+    fprintf(stdout, "stop requested\n", );
+      /*  Stop code to be executed here.
+      */
+    exit(EXIT_FAILURE);
+    break;
+  }
+  else{                                                                         // default:
+    fprintf(stderr, "ERROR: Invalid command: %s\n", cmd);
+    fprintf(stderr, "       Only one of (start | stop) allowed\n");
+    exit(EXIT_FAILURE);
   }
 }
 
