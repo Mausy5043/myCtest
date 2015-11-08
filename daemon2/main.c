@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     fprintf(stderr, "ERROR: too many arguments. Only one of (start|stop) allowed\n");
     exit(EXIT_FAILURE);
   }
-  char *cmd = argv[2];
+  char *cmd = argv[1];
   predaemon(cmd);
   daemonize();
 
