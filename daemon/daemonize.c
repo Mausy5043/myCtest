@@ -26,6 +26,7 @@
 #define RUNNING_DIR	"/tmp"
 #define LOCK_FILE 	"exampled.lock"
 #define LOG_FILE	  "exampled.log"
+#define APP_NAME    "exampled"
 
 int hLFP;
 
@@ -112,7 +113,7 @@ void daemonize(){
   i = open("/dev/null", O_RDWR); dup(i); dup(i);                                // handle stdin/stdout/stderr
 
   /* Open the log file */
-  openlog("TestDaemon", LOG_PID, LOG_DAEMON);
+  openlog(APP_NAME, LOG_PID, LOG_DAEMON);
 
   /* create pidfile */
   hLFP = open(LOCK_FILE, O_RDWR|O_CREAT, 0640);                                 // create pidfile
