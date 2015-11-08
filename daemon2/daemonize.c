@@ -29,6 +29,8 @@
 int hLFP;                                                                       // filehandle pidfile
 
 void predaemon(char *cmd){
+  char str[10];
+  // NOTE: can not use syslog here!
   /* switch (cmd)  */
   if (strcmp(cmd, "start") == 0){                                               // case "start":
     fprintf(stdout, "%s requested\n", cmd);
@@ -41,6 +43,9 @@ void predaemon(char *cmd){
     fprintf(stdout, "%s requested\n", cmd);
       /*  Stop code to be executed here.
       */
+    hLFP = open(LOCK_FILE, O_RDONLY);
+    read(hLFP, str, strlen(str));
+    fprintf(stdout, "%s requested\n", str);
     exit(EXIT_FAILURE);
     //break;
   }
