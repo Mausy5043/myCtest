@@ -13,7 +13,22 @@ int main()
   while (1)                                                                     // main loop of daemon
   {
     sleep(1);                                                                   // Don't block context switches
-    sleep(3600);
+    syslog(LOG_DEBUG, "DEBUG");
+    sleep(10);
+    syslog(LOG_INFO, "INFO");
+    sleep(10);
+    syslog(LOG_NOTICE, "NOTICE");
+    sleep(10);
+    syslog(LOG_WARNING, "WARNING");
+    sleep(10);
+    syslog(LOG_ERR, "ERR");
+    sleep(10);
+    syslog(LOG_CRIT, "CRIT");
+    sleep(10);
+    syslog(LOG_ALERT, "ALERT");
+    sleep(10);
+    syslog(LOG_EMERG, "EMERG");
+    sleep(360);
     break;                                                                      // for testing purposes
   }
 
