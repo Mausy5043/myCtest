@@ -115,7 +115,7 @@ void daemonize(){
   if (hLFP<0) exit(EXIT_FAILURE);                                                // can not open
   if (lockf(hLFP,F_TLOCK,0)<0) exit(EXIT_FAILURE);                               // can not lock
   sprintf(str,"%d\n",getpid());
-  write(lfp,str,strlen(str));                                                   // record pid to lockfile
+  write(hLFP,str,strlen(str));                                                   // record pid to lockfile
 
   signal(SIGCHLD,SIG_IGN);                                                      // ignore child
   signal(SIGTSTP,SIG_IGN);                                                      // ignore tty signals
