@@ -6,15 +6,24 @@
 
 int main()
 {
-  daemonize();
+  int LFP;
+  LFP = daemonize();
   syslog(LOG_NOTICE, "Daemon started.");
   while(1)                                                                      // main loop of daemon
   {
-    sleep(10);
+    sleep(3600);
     break;
   }
 
-  syslog(LOG_NOTICE, "Daemon terminated.");
+
+
+  //lockf(lfp,F_ULOCK,0);
+  if (lockf(LFP,F_ULOCK,0) > 0)
+    syslog(LOG_NOTICE, "Lockfile could not be released.");
+  else
+    syslog(LOG_NOTICE, "Lockfile released.");
+
+  syslog(LOG_NOTICE, "Automatically terminated.");
   closelog();
 
   return EXIT_SUCCESS;

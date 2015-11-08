@@ -49,18 +49,22 @@ void signal_handler(int sig){
       break;
     case SIGTERM:
       //log_message(LOG_FILE,"terminate signal catched");
+      if (lockf(lfp,F_ULOCK,0) > 0)
+        syslog(LOG_NOTICE, "Lockfile could not be released.");
+      else
+        syslog(LOG_NOTICE, "Lockfile released.");
+
       syslog(LOG_NOTICE, "Daemon received SIGTERM.");
-      closelog();                              // can not open
-      lockf(lfp,F_ULOCK,0); 
+      closelog();
       exit(EXIT_SUCCESS);
       break;
   }
 }
 
-void daemonize(){
+int daemonize(){
   pid_t pid;
   int i;
-  // int lfp;
+  //int lfp;
   char str[10];
 
   if(getppid()==1) return;                                                      // already a daemon
@@ -113,4 +117,5 @@ void daemonize(){
 
   /* Open the log file */
   openlog("TestDaemon", LOG_PID, LOG_DAEMON);
+  return lfp;
 }
