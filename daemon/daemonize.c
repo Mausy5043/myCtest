@@ -1,6 +1,7 @@
 /*
 * UNIX Daemon Server Programming Sample Program
 * Levent Karakas <levent at mektup dot at> May 2001
+*  http://www.enderunix.org/docs/eng/daemon.php
 *
 * Adapted for use by M. Hendrix - 2011NOV
 *
@@ -67,8 +68,6 @@ int daemonize(){
   //int lfp;
   char str[10];
 
-  if(getppid()==1) return 0;                                                    // already a daemon
-
   /* first fork() */
   pid=fork();
   if (pid < 0){                                                                 // fork error
@@ -82,10 +81,15 @@ int daemonize(){
     fprintf(stderr,"error: failed setsid\n");
     exit(EXIT_FAILURE);
   }
-  umask(027);                                                                   // set newly created file permissions
-  chdir(RUNNING_DIR);                                                           // change running directory
 
-  /* second fork() */
+  umask(000);                                                                   // set newly created file permissions
+
+  if ((chdir(RUNNING_DIR)) < 0) {                                               // change current working directory
+    fprintf(stderr,"error: failed chdir()\n");
+    exit(EXIT_FAILURE);
+  }
+
+/* second fork() not needed ? */
   pid=fork();
   if (pid < 0){                                                                 // fork error
     fprintf(stderr,"error: failed second fork\n");
@@ -93,21 +97,16 @@ int daemonize(){
   }
   if (pid > 0) exit(EXIT_SUCCESS);                                              // parent exits
 
+/* second fork continues */
   for (i=getdtablesize();i>=0;--i) close(i);                                    // close all descriptors
-  i=open("/dev/null",O_RDWR); dup(i); dup(i);                                   // handle standard I/O
-  /* reopen stdin, stdout, stderr
-  stdin =fopen(infile, "r");    //fd=0 *
-  stdout=fopen(outfile,"w+");   //fd=1 *
-  stderr=fopen(errfile,"w+");   //fd=2 *
-                                       */
+  i=open("/dev/null",O_RDWR); dup(i); dup(i);                                   // handle stdin/stdout/stderr
 
-  lfp=open(LOCK_FILE,O_RDWR|O_CREAT,0640);
+  lfp=open(LOCK_FILE,O_RDWR|O_CREAT,0640);                                      // create pidfile
   if (lfp<0) exit(EXIT_FAILURE);                                                // can not open
   if (lockf(lfp,F_TLOCK,0)<0) exit(EXIT_FAILURE);                               // can not lock
-
-  /* second fork continues */
   sprintf(str,"%d\n",getpid());
   write(lfp,str,strlen(str));                                                   // record pid to lockfile
+
   signal(SIGCHLD,SIG_IGN);                                                      // ignore child
   signal(SIGTSTP,SIG_IGN);                                                      // ignore tty signals
   signal(SIGTTOU,SIG_IGN);

@@ -11,6 +11,7 @@ int main()
   syslog(LOG_NOTICE, "Daemon started.");
   while(1)                                                                      // main loop of daemon
   {
+    sleep(1);                                                                   // Don't block context switches
     sleep(3600);
     break;
   }
@@ -22,6 +23,7 @@ int main()
     syslog(LOG_NOTICE, "Lockfile could not be released.");
   else
     syslog(LOG_NOTICE, "Lockfile released.");
+    unlink(LOCK_FILE);
 
   syslog(LOG_NOTICE, "Automatically terminated.");
   closelog();
