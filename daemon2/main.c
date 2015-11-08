@@ -8,11 +8,11 @@
 int main(int argc, char* argv[])
 {
   if (argc < 2){
-    fprintf(stderr, "ERROR: missing command. One of (start|stop) required.\n");
+    fprintf(stderr, "ERROR: missing command. One of (start | stop) required.\n");
     exit(EXIT_FAILURE);
   }
   if (argc > 2){
-    fprintf(stderr, "ERROR: too many arguments. Only one of (start|stop) allowed\n");
+    fprintf(stderr, "ERROR: too many arguments. Only one of (start | stop) allowed\n");
     exit(EXIT_FAILURE);
   }
   char *cmd = argv[1];
