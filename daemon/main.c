@@ -17,7 +17,7 @@ int main()
   }
 
 
-  some();
+  fnsome();
 
   syslog(LOG_NOTICE, "Automatically terminated.");
   closelog();

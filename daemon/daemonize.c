@@ -50,7 +50,7 @@ void signal_handler(int sig){
       break;
     case SIGTERM:
       //log_message(LOG_FILE,"terminate signal catched");
-      some();
+      fnsome();
       syslog(LOG_NOTICE, "Daemon received SIGTERM.");
       closelog();
       exit(EXIT_SUCCESS);
@@ -58,11 +58,13 @@ void signal_handler(int sig){
   }
 }
 
-void some(){
-  if (lockf(lfp,F_ULOCK,0) > 0)
+void fnsome(){
+  if (lockf(lfp,F_ULOCK,0) > 0){
     syslog(LOG_NOTICE, "Lockfile could not be released.");
-  else
+  }
+  else{
     syslog(LOG_NOTICE, "Lockfile released.");
+  }
   unlink(LOCK_FILE);
 }
 
