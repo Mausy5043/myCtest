@@ -44,15 +44,17 @@ void predaemon(char *cmd){
   else if (strcmp(cmd, "stop") == 0){                                           // case "stop":
     fprintf(stdout, "%s requested\n", cmd);
     hLFP = open(LOCK_FILE, O_RDONLY);
-     l = read(hLFP, str, sizeof(str));
+    l = read(hLFP, str, sizeof(str));
     close(hLFP);
-    str[l-1] = '\0';
+    str[l-1] = '\0';                                                            // add proper termination
     // fprintf(stdout, "len: %i\n", l);
     // fprintf(stdout, "str: %s\n", str);
     sscanf(str, "%d", &pid);
-    if (pid > 10){
+    if (pid > 10){                                                              // lower pid is unlikely
       fprintf(stdout, "killing pid: %i as per your request\n", pid);
-      kill(pid, SIGTERM);
+      if (kill(pid, SIGTERM) < 0){
+        fprintf(stderr, "ERROR: pid: %i not killed\n", pid);
+      };
     }
       /*  Terminates running incarnation.
           Then terminates itself
