@@ -26,6 +26,8 @@
 #define LOCK_FILE	"exampled.lock"
 #define LOG_FILE	"exampled.log"
 
+int lfp;
+
 void log_message(char *filename,char *message){
   FILE *logfile;
   logfile=fopen(filename,"a");
@@ -48,7 +50,8 @@ void signal_handler(int sig){
     case SIGTERM:
       //log_message(LOG_FILE,"terminate signal catched");
       syslog(LOG_NOTICE, "Daemon received SIGTERM.");
-      closelog();
+      closelog();                              // can not open
+      lockf(lfp,F_ULOCK,0); 
       exit(EXIT_SUCCESS);
       break;
   }
@@ -57,7 +60,7 @@ void signal_handler(int sig){
 void daemonize(){
   pid_t pid;
   int i;
-  int lfp;
+  // int lfp;
   char str[10];
 
   if(getppid()==1) return;                                                      // already a daemon
