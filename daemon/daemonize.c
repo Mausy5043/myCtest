@@ -51,7 +51,7 @@ void log_message(char *filename,char *message){
   logfile=fopen(filename,"a");
   if(!logfile)
   {
-    syslog(LOG_NOTICE, "Can't open file %s",filename);
+    syslog(LOG_NOTICE, "Can not open file %s",filename);
     return;
   }
   fprintf(logfile,"%s\n",message);
@@ -111,9 +111,19 @@ void daemonize(){
   for (i=getdtablesize();i>=0;--i) close(i);                                    // close all descriptors
   i=open("/dev/null",O_RDWR); dup(i); dup(i);                                   // handle stdin/stdout/stderr
 
+  /* Open the log file */
+  openlog("TestDaemon", LOG_PID, LOG_DAEMON);
+
+  /* create pidfile */
   hLFP=open(LOCK_FILE,O_RDWR|O_CREAT,0640);                                      // create pidfile
-  if (hLFP<0) exit(EXIT_FAILURE);                                                // can not open
-  if (lockf(hLFP,F_TLOCK,0)<0) exit(EXIT_FAILURE);                               // can not lock
+  if (hLFP<0){
+    syslog(LOG_NOTICE, "Can not open pidfile");
+    exit(EXIT_FAILURE);                                                        // can not open
+  }
+  if (lockf(hLFP,F_TLOCK,0)<0){
+    syslog(LOG_NOTICE, "Can not lock pidfile");
+    exit(EXIT_FAILURE);                                                        // can not lock
+  }
   sprintf(str,"%d\n",getpid());
   write(hLFP,str,strlen(str));                                                   // record pid to lockfile
 
@@ -124,6 +134,4 @@ void daemonize(){
   signal(SIGHUP, signal_handler);                                               // catch hangup signal
   signal(SIGTERM,signal_handler);                                               // catch kill signal
 
-  /* Open the log file */
-  openlog("TestDaemon", LOG_PID, LOG_DAEMON);
 }
