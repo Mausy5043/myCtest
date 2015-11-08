@@ -21,12 +21,12 @@
 #include <sys/types.h>
 #include <sys/stat.h>                                                           //umask(3)
 
-#define RUNNING_DIR	"/tmp"
-#define LOCK_FILE 	"exampled.lock"
-#define LOG_FILE	  "exampled.log"
+#define RUNNING_DIR	"/"
+#define LOCK_FILE 	"/tmp/exampled.lock"
+#define LOG_FILE	  "/tmp/exampled.log"
 #define APP_NAME    "exampled"
 
-int hLFP;
+int hLFP;                                                                       // filehandle pidfile
 
 void cleanup(){
   if (lockf(hLFP,F_ULOCK,0) < 0){
