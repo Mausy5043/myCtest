@@ -29,15 +29,21 @@
 
 int lfp;
 
-
-void fnsome(){
-  if (lockf(lfp,F_ULOCK,0) > 0){
+void cleanup(){
+  if (lockf(lfp,F_ULOCK,0) < 0){
     syslog(LOG_NOTICE, "Lockfile could not be released.");
   }
   else{
     syslog(LOG_NOTICE, "Lockfile released.");
   }
-  unlink(LOCK_FILE);
+
+  // delete lockfile
+  if (unlink(LOCK_FILE) < 0){
+    syslog(LOG_NOTICE, "Lockfile could not be removed.");
+  }
+  else{
+    syslog(LOG_NOTICE, "Lockfile removed.");
+  };
 }
 
 void log_message(char *filename,char *message){
@@ -61,7 +67,7 @@ void signal_handler(int sig){
       break;
     case SIGTERM:
       //log_message(LOG_FILE,"terminate signal catched");
-      fnsome();
+      cleanup();
       syslog(LOG_NOTICE, "Daemon received SIGTERM.");
       closelog();
       exit(EXIT_SUCCESS);
@@ -69,7 +75,7 @@ void signal_handler(int sig){
   }
 }
 
-int daemonize(){
+void daemonize(){
   pid_t pid;
   int i;
   //int lfp;
@@ -123,5 +129,4 @@ int daemonize(){
 
   /* Open the log file */
   openlog("TestDaemon", LOG_PID, LOG_DAEMON);
-  return lfp;
 }

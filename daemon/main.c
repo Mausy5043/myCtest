@@ -6,8 +6,7 @@
 
 int main()
 {
-  int LFP;
-  LFP = daemonize();
+  daemonize();
   syslog(LOG_NOTICE, "Daemon started.");
   while(1)                                                                      // main loop of daemon
   {
@@ -17,7 +16,7 @@ int main()
   }
 
 
-  fnsome();
+  cleanup();
 
   syslog(LOG_NOTICE, "Automatically terminated.");
   closelog();
