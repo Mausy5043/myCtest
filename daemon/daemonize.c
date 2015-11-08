@@ -48,18 +48,18 @@ void cleanup(){
 
 void log_message(char *filename,char *message){
   FILE *logfile;
-  logfile=fopen(filename,"a");
-  if(!logfile)
+  logfile = fopen(filename, "a");
+  if (!logfile)
   {
-    syslog(LOG_ERR, "Can not open file %s",filename);
+    syslog(LOG_ERR, "Can not open file %s", filename);
     return;
   }
-  fprintf(logfile,"%s\n",message);
+  fprintf(logfile, "%s\n", message);
   fclose(logfile);
 }
 
 void signal_handler(int sig){
-  switch(sig)
+  switch (sig)
   {
     case SIGHUP:
       syslog(LOG_INFO, "received SIGHUP.");
@@ -79,58 +79,58 @@ void daemonize(){
   char str[10];
 
   /* first fork() */
-  pid=fork();
+  pid = fork();
   if (pid < 0){                                                                 // fork error
-    fprintf(stderr,"ERROR: failed first fork\n");
+    fprintf(stderr, "ERROR: failed first fork\n");
     exit(EXIT_FAILURE);
   }
   if (pid > 0) exit(EXIT_SUCCESS);                                              // parent exits
 
   /* decouple from parent environment */
   if (setsid() < 0){                                                            // obtain a new process group
-    fprintf(stderr,"ERROR: failed setsid\n");
+    fprintf(stderr, "ERROR: failed setsid\n");
     exit(EXIT_FAILURE);
   }
 
   umask(000);                                                                   // set newly created file permissions
 
-  if ((chdir(RUNNING_DIR)) < 0) {                                               // change current working directory
-    fprintf(stderr,"ERROR: failed chdir()\n");
+  if (chdir(RUNNING_DIR) < 0) {                                                 // change current working directory
+    fprintf(stderr, "ERROR: failed chdir()\n");
     exit(EXIT_FAILURE);
   }
 
   /* second fork() not needed ? */
-  pid=fork();
+  pid = fork();
   if (pid < 0){                                                                 // fork error
-    fprintf(stderr,"ERROR: failed second fork\n");
+    fprintf(stderr, "ERROR: failed second fork\n");
     exit(EXIT_FAILURE);
   }
   if (pid > 0) exit(EXIT_SUCCESS);                                              // parent exits
 
   /* second fork continues */
-  for (i=getdtablesize();i>=0;--i) close(i);                                    // close all descriptors
-  i=open("/dev/null",O_RDWR); dup(i); dup(i);                                   // handle stdin/stdout/stderr
+  for (i = getdtablesize(); i >= 0; --i) close(i);                              // close all descriptors
+  i = open("/dev/null", O_RDWR); dup(i); dup(i);                                // handle stdin/stdout/stderr
 
   /* Open the log file */
   openlog("TestDaemon", LOG_PID, LOG_DAEMON);
 
   /* create pidfile */
-  hLFP=open(LOCK_FILE,O_RDWR|O_CREAT,0640);                                     // create pidfile
-  if (hLFP<0){
+  hLFP = open(LOCK_FILE, O_RDWR|O_CREAT, 0640);                                 // create pidfile
+  if (hLFP < 0){
     syslog(LOG_ERR, "Can not open pidfile");
     exit(EXIT_FAILURE);                                                         // can not open
   }
-  if (lockf(hLFP,F_TLOCK,0)<0){
+  if (lockf(hLFP, F_TLOCK, 0) < 0){
     syslog(LOG_ERR, "Can not lock pidfile");
     exit(EXIT_FAILURE);                                                         // can not lock
   }
-  sprintf(str,"%d\n",getpid());
-  write(hLFP,str,strlen(str));                                                  // record pid to lockfile
+  sprintf(str, "%d\n", getpid());
+  write(hLFP, str, strlen(str));                                                // record pid to lockfile
 
-  signal(SIGCHLD,SIG_IGN);                                                      // ignore child
-  signal(SIGTSTP,SIG_IGN);                                                      // ignore tty signals
-  signal(SIGTTOU,SIG_IGN);
-  signal(SIGTTIN,SIG_IGN);
-  signal(SIGHUP, signal_handler);                                               // catch hangup signal
-  signal(SIGTERM,signal_handler);                                               // catch kill signal
+  signal(SIGCHLD, SIG_IGN);                                                     // ignore child
+  signal(SIGTSTP, SIG_IGN);                                                     // ignore tty signals
+  signal(SIGTTOU, SIG_IGN);
+  signal(SIGTTIN, SIG_IGN);
+  signal(SIGHUP,  signal_handler);                                              // catch hangup signal
+  signal(SIGTERM, signal_handler);                                              // catch kill signal
 }

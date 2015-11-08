@@ -10,7 +10,7 @@ int main()
 
   syslog(LOG_INFO, "started successfully.");
 
-  while(1)                                                                      // main loop of daemon
+  while (1)                                                                     // main loop of daemon
   {
     sleep(1);                                                                   // Don't block context switches
     sleep(3600);
