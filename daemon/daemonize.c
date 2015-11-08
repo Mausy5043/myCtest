@@ -67,7 +67,7 @@ int daemonize(){
   //int lfp;
   char str[10];
 
-  if(getppid()==1) return;                                                      // already a daemon
+  if(getppid()==1) return 0;                                                    // already a daemon
 
   /* first fork() */
   pid=fork();
