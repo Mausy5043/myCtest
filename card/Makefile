@@ -1,11 +1,11 @@
 # Makefile
 
 # Project-specific definitions
-SOURCES=tiny.c
+SOURCES=card.cpp
 EXECUTABLE=main
 
 # Default definitions
-CC=gcc
+CC=g++
 CFLAGS=-c -Wall
 LFLAGS=-Wall
 
@@ -20,7 +20,7 @@ else
 		CFLAGS+=-Os
 	endif
 	ifeq ($(UNAME_S),Darwin)
-		CC=clang
+		CC=clang++
 		CFLAGS+=-Os
 	endif
 endif
